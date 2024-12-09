@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker - Budget</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #ff6b81, #ffd93d); 
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ff6b81;
+      padding: 20px 40px;
+      border-bottom: 4px solid #ffd93d;
+    }
+
+    .logo h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info span {
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .user-info button {
+      padding: 12px 18px;
+      background-color: #ffd93d;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .dashboard {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding: 35px;
+      width: 80%;
+      max-width: 1200px;
+      position: relative;
+    }
+
+    .dashboard h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2.5rem;
+      color: #ff6b81;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .overview {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: #ffd93d;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 30%;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .floating-box {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 150px;
+      z-index: 10;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ff6b81;
+    }
+
+    .floating-box img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .floating-box p {
+      font-size: 0.7rem;
+      color: #333;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <h1>TrackMySpend</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="expenses.html">List of Expenses</a></li>
+        <li><a href="graph.html">Expense Graph</a></li>
+        <li><a href="budget.html">Budget Tracker</a></li>
+        <li><a href="reports.html">Reports</a></li>
+      </ul>
+    </nav>
+    <div class="user-info">
+      <span>Welcome, User!</span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard">
+      <h2>Budget Tracker</h2>
+      <div class="overview">
+        <div class="card">
+          <h3>Total Expenses</h3>
+          <p id="totalExpensesDisplay">₹0</p>
+        </div>
+        <div class="card">
+          <h3>Remaining Budget</h3>
+          <p id="remainingBudgetDisplay">₹0</p>
+        </div>
+        <div class="card">
+          <h3>Total Income</h3>
+          <p id="totalIncomeDisplay">₹0</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="floating-box">
+    <img src="proj4.jpeg" alt="Expense Image">
+    <p>Keep track of your expenses easily!</p>
+  </div>
+
+  <script>
+    function loadBudgetData() {
+      const totalExpenses = localStorage.getItem('totalExpenses');
+      const remainingBudget = localStorage.getItem('remainingBudget');
+      const totalIncome = localStorage.getItem('totalIncome');
+
+      // Display the values if they exist in localStorage
+      if (totalExpenses && remainingBudget && totalIncome) {
+        document.getElementById('totalExpensesDisplay').textContent = `₹${totalExpenses}`;
+        const remainingBudget = totalIncome - totalExpenses;
+        document.getElementById('remainingBudgetDisplay').textContent = `₹${remainingBudget}`;
+        document.getElementById('totalIncomeDisplay').textContent = `₹${totalIncome}`;
+      } else {
+        alert('No data found. Please update the budget on the Dashboard.');
+      }
+    }
+
+   
+    function logout() {
+      alert("You have logged out successfully.");
+      window.location.href = "login.html";
+    }
+
+    
+    window.onload = loadBudgetData;
+  </script>
+
+</body>
+</html>

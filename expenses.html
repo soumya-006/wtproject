@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of Expenses</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #ff6b81, #ffd93d); 
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ff6b81;
+      padding: 20px 40px;
+      border-bottom: 4px solid #ffd93d; 
+    }
+
+    .logo h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffd93d;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info span {
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .user-info button {
+      padding: 12px 18px;
+      background-color: #ffd93d; 
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .user-info button:hover {
+      background-color: #ff6b81; 
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .expense-list {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding: 35px;
+      width: 80%;
+      max-width: 1200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expense-list h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2.5rem;
+      color: #ff6b81;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    table th, table td {
+      padding: 15px 20px;
+      border: 1px solid #ff6b81; 
+      text-align: left;
+    }
+
+    table th {
+      background-color: #ffd93d;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    table tr:hover {
+      background-color: #ffe4e1;
+    }
+
+    .actions button {
+      padding: 10px 16px;
+      margin: 0 6px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background-color: #ff6b81;
+      color: white;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .actions button:hover {
+      background-color: #ffd93d;
+    }
+
+    .floating-box {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 150px;
+      z-index: 10;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ff6b81;
+    }
+
+    .floating-box img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .floating-box p {
+      font-size: 0.7rem;
+      color: #333;
+      margin-top: 15px;
+    }
+    @media (max-width: 768px) {
+      .expense-list {
+        width: 100%;
+        padding: 20px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <h1>TrackMySpend</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="expenses.html">List of Expenses</a></li>
+        <li><a href="graph.html">Expense Graph</a></li>
+        <li><a href="budget.html">Budget Tracker</a></li>
+        <li><a href="reports.html">Reports</a></li>
+      </ul>
+    </nav>
+    <div class="user-info">
+      <span>Welcome, User!</span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="expense-list">
+      <h2>List of Expenses</h2>
+
+      <button onclick="addExpense()" class="add-expense-btn">Add Expense</button>
+      
+      <table id="expenseTable">
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+        <tr>
+          <td>Nov 29, 2024</td>
+          <td>Groceries</td>
+          <td>Food</td>
+          <td>00</td>
+          <td class="actions">
+            <button onclick="editExpense(this)">Edit</button>
+            <button onclick="deleteExpense(this)">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Nov 28, 2024</td>
+          <td>Uber Ride</td>
+          <td>Transport</td>
+          <td>00</td>
+          <td class="actions">
+            <button onclick="editExpense(this)">Edit</button>
+            <button onclick="deleteExpense(this)">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Nov 12, 2024</td>
+          <td>Clothing</td>
+          <td>Personal Expense</td>
+          <td>00</td>
+          <td class="actions">
+            <button onclick="editExpense(this)">Edit</button>
+            <button onclick="deleteExpense(this)">Delete</button>
+          </td>
+      </table>
+      <button onclick="saveExpenseChanges()" class="save-changes-btn">Save Changes</button>
+    </div>
+  </main>
+
+  <div class="floating-box">
+    <img src="proj2.jpg" alt="Expense Image">
+    <p>Track your spending with ease!</p>
+  </div>
+
+  <script>
+    
+    function saveExpensesToLocalStorage() {
+      const rows = document.querySelectorAll('#expenseTable tr');
+      const expenses = [];
+
+      rows.forEach((row, index) => {
+        if (index === 0) return; 
+        const cells = row.cells;
+        expenses.push({
+          date: cells[0].innerText,
+          description: cells[1].innerText,
+          category: cells[2].innerText,
+          amount: cells[3].innerText,
+        });
+      });
+
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+    }
+
+    
+    function editExpense(button) {
+      const row = button.closest('tr');
+      const date = row.cells[0].innerText;
+      const description = row.cells[1].innerText;
+      const category = row.cells[2].innerText;
+      const amount = row.cells[3].innerText;
+
+      const newDate = prompt("Edit Date:", date);
+      const newDescription = prompt("Edit Description:", description);
+      const newCategory = prompt("Edit Category:", category);
+      const newAmount = prompt("Edit Amount:", amount);
+
+      if (newDate && newDescription && newCategory && newAmount) {
+        row.cells[0].innerText = newDate;
+        row.cells[1].innerText = newDescription;
+        row.cells[2].innerText = newCategory;
+        row.cells[3].innerText = newAmount;
+
+        saveExpensesToLocalStorage(); 
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+
+   
+    function deleteExpense(button) {
+      const row = button.closest('tr');
+      if (confirm("Are you sure you want to delete this expense?")) {
+        row.remove();
+        saveExpensesToLocalStorage(); 
+      }
+    }
+    function addExpense() {
+      const date = prompt("Enter Date:");
+      const description = prompt("Enter Description:");
+      const category = prompt("Enter Category:");
+      const amount = prompt("Enter Amount:");
+
+      if (date && description && category && amount) {
+        const table = document.getElementById('expenseTable');
+        const newRow = table.insertRow();
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        const cell3 = newRow.insertCell(2);
+        const cell4 = newRow.insertCell(3);
+        const cell5 = newRow.insertCell(4);
+
+        cell1.innerText = date;
+        cell2.innerText = description;
+        cell3.innerText = category;
+        cell4.innerText = amount;
+        cell5.classList.add("actions");
+        cell5.innerHTML = `<button onclick="editExpense(this)">Edit</button>
+                           <button onclick="deleteExpense(this)">Delete</button>`;
+
+        saveExpensesToLocalStorage();
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+    function saveExpenseChanges() {
+      const rows = document.querySelectorAll('#expenseTable tr');
+      let totalExpenses = 0;
+      rows.forEach((row, index) => {
+        if (index === 0) return; 
+        const cells = row.cells;
+        const amount = parseFloat(cells[3].innerText.replace('₹', ''));
+        if (!isNaN(amount)) {
+          totalExpenses += amount;
+        }
+      });
+      localStorage.setItem('totalExpenses', totalExpenses);
+
+      alert("Total expenses updated to ₹" + totalExpenses);
+    }
+    
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Graph</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #ff6b81, #ffd93d); 
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ff6b81;
+      padding: 20px 40px;
+      border-bottom: 4px solid #ffd93d;
+    }
+
+    .logo h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful font */
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffd93d; /* Yellow color on hover */
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info span {
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .user-info button {
+      padding: 12px 18px;
+      background-color: #ffd93d; /* Bright yellow */
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .user-info button:hover {
+      background-color: #ff6b81; /* Hover effect with pink */
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .graph-container {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding: 35px;
+      width: 80%;
+      max-width: 1200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .graph-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2.5rem;
+      color: #ff6b81;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .floating-box {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 150px;
+      z-index: 10;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ff6b81;
+    }
+
+    .floating-box img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .floating-box p {
+      font-size: 0.7rem;
+      color: #333;
+      margin-top: 15px;
+    }
+
+   
+    @media (max-width: 768px) {
+      .graph-container {
+        width: 100%;
+        padding: 20px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>TrackMySpend</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="expenses.html">List of Expenses</a></li>
+        <li><a href="graph.html">Expense Graph</a></li>
+        <li><a href="budget.html">Budget Tracker</a></li>
+        <li><a href="reports.html">Reports</a></li>
+      </ul>
+    </nav>
+    <div class="user-info">
+      <span>Welcome, User!</span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="graph-container">
+      <h2>Expense Graph</h2>
+      <canvas id="expenseChart"></canvas>
+    </div>
+  </main>
+
+  <div class="floating-box">
+    <img src="proj1.jpeg" alt="Expense Graph Image">
+    <p>Visualize your expenses in a simple graph!</p>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    
+    function logout() {
+      alert("You have logged out successfully.");
+      window.location.href = "login.html";
+    }
+
+    var ctx = document.getElementById('expenseChart').getContext('2d');
+    var expenseChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Groceries', 'Personal Expenses', 'Transport'],
+        datasets: [{
+          label: 'Highest Expenses (₹)',
+          data: [8000, 5000, 1500], 
+          backgroundColor: ['#FF5733', '#33FF57', '#3357FF'], 
+          borderColor: ['#FF5733', '#33FF57', '#3357FF'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) { return '₹' + value; } 
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
